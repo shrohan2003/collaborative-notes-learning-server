@@ -1,0 +1,8 @@
+# Installed packages npm
+node_modules/
+
+# Private local configuration pass
+.env
+
+# Error and debug logs
+*.log
