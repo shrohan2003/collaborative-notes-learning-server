@@ -35,6 +35,43 @@ async function createAccount(req, res) {
     }
 }
 
+
+async function loginAccount(req, res) {
+  try {
+    const { email, password } = req.body ?? {}// ?? safety
+
+    if (!email || !password) {
+      return res.status(400).json({
+        message: 'Email and password are required.',
+      })
+    }
+
+    const dbResult = await pool.query(
+      `SELECT user_id, email
+       FROM users
+       WHERE email = $1 AND encrypted_password = $2`,
+      [email, password]
+    )
+
+    if (dbResult.rows.length === 0) {
+      return res.status(401).json({
+        message: 'Email or password is incorrect.',
+      })
+    }
+
+    res.status(200).json({
+      message: 'Login successful.',
+      user: dbResult.rows[0],
+    })
+  } catch (error) {
+    console.error('Login error:', error.message)
+
+    res.status(500).json({
+      message: 'Login failed.',
+    })
+  }
+}
 module.exports = {
-    createAccount
+  createAccount,
+  loginAccount,
 }
