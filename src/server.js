@@ -1,11 +1,11 @@
 require('dotenv').config()
 
-const createAccountRoute = require('./src/routes/create-account.route.js')
+const createAccountRoute = require('./routes/create-account.route.js')
 const express = require('express')
 const cors = require('cors')
 const bcrypt = require('bcryptjs')
 // PgSQL connection 
-const pool = require('./db')
+const pool = require('./database/db.js')
 const app = express()
 const PORT = 3001
 app.use(cors())
